@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react'
 
-const Persons = ({persons, search}) => {
+const Persons = ({persons, search, handleDelete}) => {
     const [filterName, setFilterName] = useState(persons)  
 
     useEffect(() => {
-        const temp = persons.filter(
-          (person) => {
-            return person.name.toLowerCase().includes(search.toLowerCase())
-          }
-        )
+        let temp = persons
+        if(search){
+            temp = persons.filter(
+                (person) => {
+                    return person.name.toLowerCase().includes(search.toLowerCase())
+                }
+            )
+        }
         setFilterName(temp)
       }, [persons, search])
     
@@ -18,9 +21,9 @@ const Persons = ({persons, search}) => {
                 filterName.map(
                 (filterName) => {
                     return(
-                    <div key={filterName.name}>
-                        {filterName.name} {filterName.number}
-                    </div>
+                    <form name={filterName.name} id={filterName.id} key={filterName.name} onSubmit={handleDelete}>
+                        <div>{filterName.name} {filterName.number} <button type='submit'>delete</button></div>
+                    </form>
                     )
                 }
                 )
